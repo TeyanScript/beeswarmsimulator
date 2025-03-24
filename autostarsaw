@@ -48,24 +48,6 @@ MainFrame.InputEnded:Connect(function(input)
     end
 end)
 
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 30, 0, 30)
-CloseButton.Position = UDim2.new(1, -40, 0, 5)
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.Font = Enum.Font.SourceSansBold
-CloseButton.TextSize = 16
-CloseButton.Parent = MainFrame
-
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 5)
-CloseCorner.Parent = CloseButton
-
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
 local TabFrame = Instance.new("Frame")
 TabFrame.Size = UDim2.new(1, 0, 0, 30)
 TabFrame.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
@@ -91,18 +73,18 @@ InfoTabButton.Font = Enum.Font.SourceSansBold
 InfoTabButton.TextSize = 14
 InfoTabButton.Parent = TabFrame
 
-local DiscordButton = Instance.new("TextButton")
-DiscordButton.Size = UDim2.new(0.2, 0, 1, 0)
-DiscordButton.Position = UDim2.new(0.8, 0, 0, 0)
-DiscordButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
-DiscordButton.Text = "DISCORD"
-DiscordButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-DiscordButton.Font = Enum.Font.SourceSansBold
-DiscordButton.TextSize = 14
-DiscordButton.Parent = TabFrame
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0.2, 0, 1, 0)
+CloseButton.Position = UDim2.new(0.8, 0, 0, 0)
+CloseButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
+CloseButton.Text = "CLOSE"
+CloseButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.TextSize = 14
+CloseButton.Parent = TabFrame
 
-DiscordButton.MouseButton1Click:Connect(function()
-    print("discord: korikose")
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
 end)
 
 local MainTab = Instance.new("Frame")
@@ -147,7 +129,7 @@ MainTabButton.MouseButton1Click:Connect(function()
     InfoTab.Visible = false
     MainTabButton.BackgroundColor3 = Color3.fromRGB(90, 80, 100)
     InfoTabButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
-    DiscordButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
 end)
 
 InfoTabButton.MouseButton1Click:Connect(function()
@@ -155,7 +137,7 @@ InfoTabButton.MouseButton1Click:Connect(function()
     InfoTab.Visible = true
     MainTabButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
     InfoTabButton.BackgroundColor3 = Color3.fromRGB(90, 80, 100)
-    DiscordButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(70, 60, 80)
 end)
 
 local IsActive = false
