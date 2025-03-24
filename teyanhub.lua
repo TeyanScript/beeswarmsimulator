@@ -102,58 +102,70 @@ local function createMainUI()
         Instance.new("UICorner", PlaceButton).CornerRadius = UDim.new(0, 12)
         
         PlaceButton.MouseButton1Click:Connect(function()
-            local ScriptMenu = Instance.new("Frame")
-            ScriptMenu.Size = UDim2.new(0.35, 0, 0.6, 0)
-            ScriptMenu.Position = UDim2.new(0.325, 0, 0.25, 0)
-            ScriptMenu.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-            ScriptMenu.BackgroundTransparency = 0.2
-            ScriptMenu.Parent = MainFrame
-            Instance.new("UICorner", ScriptMenu).CornerRadius = UDim.new(0, 15)
+            MainFrame.Visible = false
+            local ScriptPage = Instance.new("Frame")
+            ScriptPage.Size = UDim2.new(0, 600, 0, 450)
+            ScriptPage.Position = UDim2.new(0.5, -300, 0.5, -225)
+            ScriptPage.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            ScriptPage.BackgroundTransparency = 0.1
+            ScriptPage.Parent = TeyanHub
+            Instance.new("UICorner", ScriptPage).CornerRadius = UDim.new(0, 20)
             
-            local CloseMenu = Instance.new("TextButton")
-            CloseMenu.Size = UDim2.new(0.15, 0, 0.1, 0)
-            CloseMenu.Position = UDim2.new(0.85, 0, 0, 0)
-            CloseMenu.Text = "X"
-            CloseMenu.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-            CloseMenu.TextColor3 = Color3.fromRGB(255, 255, 255)
-            CloseMenu.Parent = ScriptMenu
-            Instance.new("UICorner", CloseMenu).CornerRadius = UDim.new(0, 8)
+            local PageGradient = Instance.new("UIGradient")
+            PageGradient.Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 200)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 255))
+            }
+            PageGradient.Rotation = 45
+            PageGradient.Parent = ScriptPage
+            
+            local BackButton = Instance.new("TextButton")
+            BackButton.Size = UDim2.new(0.15, 0, 0.1, 0)
+            BackButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+            BackButton.Text = "Back"
+            BackButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            BackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            BackButton.Font = Enum.Font.GothamBold
+            BackButton.TextSize = 20
+            BackButton.Parent = ScriptPage
+            Instance.new("UICorner", BackButton).CornerRadius = UDim.new(0, 8)
+            
+            BackButton.MouseButton1Click:Connect(function()
+                ScriptPage:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
+                wait(0.3)
+                ScriptPage:Destroy()
+                MainFrame.Visible = true
+            end)
             
             if place == "Ro Ghoul" then
-                local AuthorLabel = Instance.new("TextLabel")
-                AuthorLabel.Size = UDim2.new(0.8, 0, 0.15, 0)
-                AuthorLabel.Position = UDim2.new(0.1, 0, 0.2, 0)
-                AuthorLabel.Text = "PorryDepTrai"
-                AuthorLabel.TextColor3 = Color3.fromRGB(0, 255, 200)
-                AuthorLabel.BackgroundTransparency = 1
-                AuthorLabel.Font = Enum.Font.GothamBold
-                AuthorLabel.TextSize = 25
-                AuthorLabel.Parent = ScriptMenu
-                
-                local InjectButton = Instance.new("TextButton")
-                InjectButton.Size = UDim2.new(0.8, 0, 0.15, 0)
-                InjectButton.Position = UDim2.new(0.1, 0, 0.4, 0)
-                InjectButton.Text = "Inject"
-                InjectButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-                InjectButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-                InjectButton.Font = Enum.Font.GothamBold
-                InjectButton.TextSize = 20
-                InjectButton.Parent = ScriptMenu
-                Instance.new("UICorner", InjectButton).CornerRadius = UDim.new(0, 10)
-                
-                InjectButton.MouseButton1Click:Connect(function()
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/PorryDepTrai/exploit/main/DashBoostSolora.lua"))()
-                    InjectButton.Text = "Injected!"
-                    wait(1)
-                    InjectButton.Text = "Inject"
-                end)
+                local Authors = {
+                    {Name = "PorryDepTrai", Script = "https://raw.githubusercontent.com/PorryDepTrai/exploit/main/DashBoostSolora.lua"}
+                }
+                for j, author in pairs(Authors) do
+                    local AuthorButton = Instance.new("TextButton")
+                    AuthorButton.Size = UDim2.new(0.22, 0, 0.15, 0)
+                    AuthorButton.Position = UDim2.new(0.05 + ((j-1) * 0.25), 0, 0.25, 0)
+                    AuthorButton.Text = author.Name
+                    AuthorButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    AuthorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    AuthorButton.Font = Enum.Font.GothamBold
+                    AuthorButton.TextSize = 20
+                    AuthorButton.Parent = ScriptPage
+                    Instance.new("UICorner", AuthorButton).CornerRadius = UDim.new(0, 12)
+                    
+                    AuthorButton.MouseButton1Click:Connect(function()
+                        loadstring(game:HttpGet(author.Script))()
+                        ScriptPage:Destroy()
+                        MainFrame:TweenSize(UDim2.new(0, 60, 0, 60), "Out", "Quad", 0.3, true)
+                        MainFrame:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
+                        for _, child in pairs(MainFrame:GetChildren()) do
+                            child.Visible = false
+                        end
+                        Minimize.Text = "TH"
+                        Minimize.Visible = true
+                    end)
+                end
             end
-            
-            CloseMenu.MouseButton1Click:Connect(function()
-                ScriptMenu:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
-                wait(0.3)
-                ScriptMenu:Destroy()
-            end)
         end)
         
         PlaceButton.MouseEnter:Connect(function()
@@ -178,7 +190,7 @@ local function createMainUI()
     Minimize.MouseButton1Click:Connect(function()
         if not minimized then
             MainFrame:TweenSize(UDim2.new(0, 60, 0, 60), "Out", "Quad", 0.3, true)
-            MainFrame:TweenPosition(UDim2.new(0.9, 0, 0.9, 0), "Out", "Quad", 0.3, true)
+            MainFrame:TweenPosition(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.3, true)
             for _, child in pairs(MainFrame:GetChildren()) do
                 child.Visible = false
             end
